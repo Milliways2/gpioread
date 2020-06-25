@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# 2020-06-22
+# 2020-06-25	Pi model in header
 """
 Read all GPIO
 enhanced version - displays power pins in colour
@@ -42,13 +42,30 @@ FUNCTION = {
 'ALT5': ('SDA6', 'SCL6', 'SDA3', 'SCL3', 'SDA3', 'SCL3', 'SDA4', 'SCL4', 'SDA4', 'SCL4', 'SDA5', 'SCL5', 'SDA5', 'SCL5', 'TXD1', 'RXD1', 'CTS1', 'RTS1', 'PWM0', 'PWM1', 'GPCLK0', 'GPCLK1', 'SDA6', 'SCL6', 'SPI3_CE1_N', 'SPI4_CE1_N', 'SPI5_CE1_N', 'SPI6_CE1_N')
 }
 
+PiModel = {
+0: 'A',
+1: 'B',
+2: 'A+',
+3: 'B+',
+4: '2B',
+6: 'CM1',
+8: '3B',
+9: 'Zero',
+0xa: 'CM3',
+0xc: 'ZeroW',
+0xd: '3B+',
+0xe: '3A+',
+0x10: 'CM3+',
+0x11: '4B'
+}
+
 def get_pull(g):
     """
     Determine "pull" of GPIO using raspi-gpio debug tool
     """
     result = subprocess.run(['raspi-gpio', 'get', ascii(g)], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    if('UP' in result): return('IN^')
-    if('DOWN' in result): return('INv')
+    if('UP' in result): return('IN ^')
+    if('DOWN' in result): return('IN v')
     return('IN')
 
 def pin_state(g):
@@ -72,12 +89,14 @@ else:
 
 if not pi.connected:
     sys.exit(1)
+
 rev = pi.get_hardware_revision()
 TYPE = (rev&0x00000FF0)>>4
+Model = 'Pi ' + PiModel[TYPE]
 if rev < 16 :
     GPIOPINS = 26
 
-print('+-----+------------+------+---+----++----+---+------+-----------+-----+')
+print('+-----+------------+------+---+{:^10}+---+------+-----------+-----+'.format(Model) )
 print('| BCM |    Name    | Mode | V |  Board   | V | Mode | Name      | BCM |')
 print('+-----+------------+------+---+----++----+---+------+-----------+-----+')
 for h in range(1, GPIOPINS, 2):
@@ -95,5 +114,5 @@ for h in range(1, GPIOPINS, 2):
         print('{}{:2} |             {:9}{}      |'.format(COL[hh], h+1, hh, RESET))
 print('+-----+------------+------+---+----++----+---+------+-----------+-----+')
 print('| BCM |    Name    | Mode | V |  Board   | V | Mode | Name      | BCM |')
-print('+-----+------------+------+---+----++----+---+------+-----------+-----+')
+print('+-----+------------+------+---+{:^10}+---+------+-----------+-----+'.format(Model) )
 
