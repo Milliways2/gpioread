@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-#2019_10_11
+# 2020-06-27	Pi model in header
 """
 Read all GPIO
 """
@@ -20,6 +20,23 @@ FUNCTION = {
 'ALT5': ('SDA6', 'SCL6', 'SDA3', 'SCL3', 'SDA3', 'SCL3', 'SDA4', 'SCL4', 'SDA4', 'SCL4', 'SDA5', 'SCL5', 'SDA5', 'SCL5', 'TXD1', 'RXD1', 'CTS1', 'RTS1', 'PWM0', 'PWM1', 'GPCLK0', 'GPCLK1', 'SDA6', 'SCL6', 'SPI3_CE1_N', 'SPI4_CE1_N', 'SPI5_CE1_N', 'SPI6_CE1_N')
 }
 
+PiModel = {
+0: 'A',
+1: 'B',
+2: 'A+',
+3: 'B+',
+4: '2B',
+6: 'CM1',
+8: '3B',
+9: 'Zero',
+0xa: 'CM3',
+0xc: 'ZeroW',
+0xd: '3B+',
+0xe: '3A+',
+0x10: 'CM3+',
+0x11: '4B'
+}
+
 def pin_state(g):
     mode = pi.get_mode(g)
     if(mode<2):
@@ -35,11 +52,14 @@ else:
 
 if not pi.connected:
     sys.exit(1)
+
 rev = pi.get_hardware_revision()
+TYPE = (rev&0x00000FF0)>>4
+Model = 'Pi ' + PiModel[TYPE]
 if rev < 16 :
     GPIOPINS = 26
 
-print('+-----+------------+------+---+----++----+---+------+-----------+-----+')
+print('+-----+------------+------+---+{:^10}+---+------+-----------+-----+'.format(Model) )
 print('| BCM |    Name    | Mode | V |  Board   | V | Mode | Name      | BCM |')
 print('+-----+------------+------+---+----++----+---+------+-----------+-----+')
 for h in range(1, GPIOPINS, 2):
@@ -48,14 +68,14 @@ for h in range(1, GPIOPINS, 2):
     if(type(hh)==type(1)):
         print('|{0:4} | {1[0]:<10} | {1[1]:<4} | {1[2]} |{2:3} '.format(hh, pin_state(hh), h), end='|| ')
     else:
-        print('|     |  {:18}   | {:2}'.format(hh, h), end=' || ')
+        print('|        {:18}   | {:2}'.format(hh, h), end=' || ')
 # even pin
     hh = HEADER[h]
     if(type(hh)==type(1)):
         print('{0:2} | {1[2]:<2}| {1[1]:<5}| {1[0]:<10}|{2:4} |'.format(h+1, pin_state(hh), hh))
     else:
-        print('{:2} |             {:9}|     |'.format(h+1, hh))
+        print('{:2} |             {:9}      |'.format(h+1, hh))
 print('+-----+------------+------+---+----++----+---+------+-----------+-----+')
 print('| BCM |    Name    | Mode | V |  Board   | V | Mode | Name      | BCM |')
-print('+-----+------------+------+---+----++----+---+------+-----------+-----+')
+print('+-----+------------+------+---+{:^10}+---+------+-----------+-----+'.format(Model) )
 
