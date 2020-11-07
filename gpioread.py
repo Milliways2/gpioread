@@ -77,7 +77,10 @@ def print_gpio(pin_state):
     """
     global TYPE, rev
     GPIOPINS = 40
-    Model = 'Pi ' + PiModel[TYPE]
+    try:
+        Model = 'Pi ' + PiModel[TYPE]
+    except:
+        Model = 'Pi ??'
     if rev < 16 :	# older models (pre PiB+)
         GPIOPINS = 26
 
