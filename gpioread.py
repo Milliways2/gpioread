@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 # 2020-10-18
 # 2020-11-07    400, CM4
+# 2021-04-13    Fix Wrong model for Old Style revision codes
 """
 Read all GPIO
 This version for pigpio daemon; allows remote access
@@ -123,6 +124,9 @@ def main():
 
     rev = pi.get_hardware_revision()
     TYPE = (rev&0x00000FF0)>>4
+    if(rev < 0x15+1):   # Old Style
+        MM = [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 3, 6, 2, 3, 6, 2]
+        TYPE = MM[rev]
 
     print_gpio(pin_state)
 

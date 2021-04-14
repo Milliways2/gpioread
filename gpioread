@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 # 2021-03-23
+# 2021-04-13    Fix Wrong model for Old Style revision codes
 """
 Read all GPIO
 This version for Pi.GPIO - an enhanced RPi.GPIO
@@ -26,7 +27,7 @@ def pin_state(g):
     """
     mode = get_alt(g)
     modename = MODES[mode]
-    if(mode==0 and pi4):  # Input on Pi4
+    if(mode==0 and BCM2711):  # Input on Pi4 etc using BCM2711
         try:
             modename = get_pull(g)  # modifies NAME to show pull
         except:
@@ -38,7 +39,7 @@ def pin_state(g):
     return name, modename, read_gpio(g)
 
 def main():
-    global pi4
+    global BCM2711
     global get_pullupdn, get_alt, read_gpio
 
     # module independent references
@@ -49,7 +50,10 @@ def main():
 
     rev = int(GPIO.RPI_INFO['REVISION'], 16)
     TYPE = (rev&0x00000FF0)>>4
-    pi4 = TYPE>16
+    BCM2711 = TYPE>16
+    if(rev < 0x15+1):   # Old Style
+        MM = [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 3, 6, 2, 3, 6, 2]
+        TYPE = MM[rev]
     # ensure gpioread globals are initialised
     gpioread.rev = rev
     gpioread.TYPE = TYPE
