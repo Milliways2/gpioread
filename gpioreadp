@@ -1,7 +1,13 @@
 #! /usr/bin/env python3
 # 2020-10-17
+# 2021-09-13	deprecated
 """
 Read all GPIO
+
+NOTE this is deprecated, if you want to display pullup See either:-
+https://github.com/Milliways2/GPIOreadall which is independent of any other libraries/daemons, or
+https://github.com/Milliways2/gpioread which uses a Pi.GPIO an enhanced version of RPi.GPIO  https://github.com/Milliways2/Pi.GPIO
+
 This version for pigpio daemon
 display pull state on Pi4 using raspi-gpio debug tool
 Code and constants imported from gpioread.py

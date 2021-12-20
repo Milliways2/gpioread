@@ -2,6 +2,7 @@
 # 2020-10-18
 # 2020-11-07    400, CM4
 # 2021-04-13    Fix Wrong model for Old Style revision codes
+# 2021-12-20    Fix Old Style crashed if warranty flag set
 """
 Read all GPIO
 This version for pigpio daemon; allows remote access
@@ -123,8 +124,10 @@ def main():
     read_gpio =  pi.read
 
     rev = pi.get_hardware_revision()
-    TYPE = (rev&0x00000FF0)>>4
-    if(rev < 0x15+1):   # Old Style
+    if(rev & 0x800000):   # New Style
+        TYPE = (rev&0x00000FF0)>>4
+    else:   # Old Style
+        rev &= 0x1F
         MM = [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 3, 6, 2, 3, 6, 2]
         TYPE = MM[rev]
 
