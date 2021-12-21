@@ -18,16 +18,10 @@ The Pi must have remote access enabled.
 
 Run with `gpioread IPaddress`
 
-**Alternate Versions**
+**Alternate Version**
 
-gpioreadp displays pull on Raspberry Pi4 using the raspi-gpio utility.
-
-**Prerequisites**
-
-Requires `python3-pigpio` to be installed and `pigpiod` running
-
-____________________________________________________________
 Extra version of gpioread for Pi.GPIO - an enhanced RPi.GPIO
+gpioread displays pull on Raspberry BCM2711 (Pi4).
 
 **Prerequisites**
 
@@ -35,5 +29,4 @@ Requires `Pi.GPIO` to be installed
 
 This can be downloaded using git clone https://github.com/Milliways2/Pi.GPIO.git
 
-
-Both alternates require Code and constants imported from gpioread.py
+Alternate requires Code and constants imported from gpioread.py
