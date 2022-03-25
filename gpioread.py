@@ -3,6 +3,7 @@
 # 2020-11-07    400, CM4
 # 2021-04-13    Fix Wrong model for Old Style revision codes
 # 2021-12-20    Fix Old Style crashed if warranty flag set
+# 2022-03-25    Zero 2 W
 """
 Read all GPIO
 This version for pigpio daemon; allows remote access
@@ -24,6 +25,7 @@ FUNCTION = {
 'ALT5': ('SDA6', 'SCL6', 'SDA3', 'SCL3', 'SDA3', 'SCL3', 'SDA4', 'SCL4', 'SDA4', 'SCL4', 'SDA5', 'SCL5', 'SDA5', 'SCL5', 'TXD1', 'RXD1', 'CTS1', 'RTS1', 'PWM0', 'PWM1', 'GPCLK0', 'GPCLK1', 'SDA6', 'SCL6', 'SPI3_CE1_N', 'SPI4_CE1_N', 'SPI5_CE1_N', 'SPI6_CE1_N')
 }
 
+# https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#new-style-revision-codes
 PiModel = {
 0: 'A',
 1: 'B',
@@ -39,6 +41,7 @@ PiModel = {
 0xe: '3A+',
 0x10: 'CM3+',
 0x11: '4B',
+0x12: 'Zero2W,
 0x13: '400',
 0x14: 'CM4'
 }
