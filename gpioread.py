@@ -4,6 +4,7 @@
 # 2021-04-13    Fix Wrong model for Old Style revision codes
 # 2021-12-20    Fix Old Style crashed if warranty flag set
 # 2022-03-25    Zero 2 W
+# 2022-04-07    typo
 """
 Read all GPIO
 This version for pigpio daemon; allows remote access
@@ -41,7 +42,7 @@ PiModel = {
 0xe: '3A+',
 0x10: 'CM3+',
 0x11: '4B',
-0x12: 'Zero2W,
+0x12: 'Zero2W',
 0x13: '400',
 0x14: 'CM4'
 }
