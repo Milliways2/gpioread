@@ -2,6 +2,7 @@
 # 2021-03-23
 # 2021-04-13    Fix Wrong model for Old Style revision codes
 # 2021-12-21    Fix Old Style crashed if warranty flag set
+# 2023-01-17    Include PROGNAME, LIBNAME in border; fix formatting
 """
 Read all GPIO
 This version for Pi.GPIO - an enhanced RPi.GPIO
@@ -12,6 +13,9 @@ import sys, os, time
 import Pi.GPIO as GPIO
 import gpioread
 from gpioread import *
+
+LIBNAME='Pi.GPIO'
+PROGNAME='gpioread'
 
 def get_pull(g):
     """
@@ -42,7 +46,6 @@ def pin_state(g):
 def main():
     global BCM2711
     global get_pullupdn, get_alt, read_gpio
-
     # module independent references
     get_alt = GPIO.get_alt
     read_gpio =  GPIO.read_gpio
@@ -64,6 +67,8 @@ def main():
     # ensure gpioread globals are initialised
     gpioread.rev = rev
     gpioread.TYPE = TYPE
+    gpioread.LIBNAME = LIBNAME
+    gpioread.PROGNAME = PROGNAME
 
     print_gpio(pin_state)   # call gpioread.print_gpio() using local pin_state())
 
